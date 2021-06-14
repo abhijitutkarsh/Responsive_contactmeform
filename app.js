@@ -75,13 +75,16 @@
 // app.listen(3000,() =>  console.log('started...'))
 
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const nodemailer = require('nodemailer');
 
 const app = express();
-
+app.use(cors({
+  origin: '*'
+}));
 // View engine setup
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -100,14 +103,22 @@ app.get('/', (req, res) => {
 });
 
 app.post('/send', (req, res) => {
+  
+      // res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.setHeader('Access-Control-Allow-Methods', 'POST');
+    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-type');
+    // res.setHeader('Access-Control-Allow-Credentials', true);
+    // res.setHeader("Access-Control-Allow-Origin", "*");
+
+  console.log(req);
   const output = `
     <p>You have a new contact request</p>
     <h3>Contact Details</h3>
     <ul>  
-      <li>Name: ${req.body.name}</li>
-      <li>Company: ${req.body.company}</li>
+      <li>Name: ${req.body.username}</li>
+      <li>Mobile: ${req.body.mobile}</li>
       <li>Email: ${req.body.email}</li>
-      <li>Phone: ${req.body.phone}</li>
+      <li>Subject: ${req.body.subject}</li>
     </ul>
     <h3>Message</h3>
     <p>${req.body.message}</p>
